@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JL Acessórios - Sua Loja Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --secondary: #f59e0b;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --danger: #ef4444;
+            --success: #10b981;
+            --gray: #6b7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+
+        .header-main {
+            padding: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .search-bar {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 2px solid var(--primary);
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .action-btn i {
+            font-size: 1.5rem;
+            margin-bottom: 3px;
+        }
+
+        .cart-btn {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Navegação */
+        .nav {
+            background: white;
+            border-top: 1px solid #eee;
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .departments-menu {
+            position: relative;
+        }
+
+        .departments-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .departments-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 250px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .departments-menu:hover .departments-content {
+            display: block;
+        }
+
+        .department-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .department-item:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .department-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: var(--light);
+        }
+
+        /* Banner Principal */
+        .main-banner {
+            height: 400px;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .banner-content {
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .banner-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .banner-content p {
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: #d97706;
+        }
+
+        /* Seções de Produtos */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 15px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-badges {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-new {
+            background: var(--primary);
+            color: white;
+        }
+
+        .badge-sale {
+            background: var(--danger);
+            color: white;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-category {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .original-price {
+            color: var(--gray);
+            text-decoration: line-through;
+            font-size: 0.9rem;
+        }
+
+        .current-price {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .installments {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding: 0 15px;
+        }
+
+        .footer-section h3 {
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            color: var(--gray);
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+
+        .social-link:hover {
+            color: var(--primary);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .banner-content h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Estilos para Promoções */
+        .promotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .promotion-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .promotion-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--danger);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .promotion-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .promotion-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .promotion-content {
+            padding: 15px;
+        }
+
+        .promotion-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .old-price {
+            color: var(--gray);
+            text-decoration: line-through;
+            font-size: 0.9rem;
+        }
+
+        .current-price {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Estilos para Filtros de Categoria */
+        .category-filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: none;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Profile Management Styles */
+        .profile-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 30px;
+        }
+
+        .profile-tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
+        }
+
+        .profile-tab {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-weight: 500;
+            padding: 10px 0;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .profile-tab.active {
+            color: var(--primary);
+        }
+
+        .profile-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .profile-content {
+            display: none;
+        }
+
+        .profile-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .address-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .address-card.default {
+            border-color: var(--primary);
+        }
+
+        .address-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .address-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .address-btn:hover {
+            color: var(--primary);
+        }
+
+        .save-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .save-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .default-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-top">
+            Frete grátis para compras acima de R$ 199,90 🚚
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">JL Acessórios</a>
+            <div class="search-bar">
+                <input type="text" placeholder="O que você está procurando?">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="header-actions">
+                <a href="#" class="action-btn profile-btn">
+                    <i class="fas fa-user"></i>
+                    <span>Perfil</span>
+                </a>
+                <a href="/favoritos" class="action-btn">
+                    <i class="fas fa-heart"></i>
+                    <span>Favoritos</span>
+                </a>
+                <a href="#" class="action-btn cart-btn" onclick="showCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Carrinho</span>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="departments-menu">
+                    <button class="departments-btn">
+                        <i class="fas fa-bars"></i>
+                        Departamentos
+                    </button>
+                    <div class="departments-content">
+                        <a href="#informatica" class="department-item">
+                            <i class="fas fa-laptop"></i>
+                            Informática
+                        </a>
+                        <a href="#acessorios" class="department-item">
+                            <i class="fas fa-headphones"></i>
+                            Acessórios
+                        </a>
+                        <a href="#sexshop" class="department-item">
+                            <i class="fas fa-heart"></i>
+                            Sex Shop
+                        </a>
+                    </div>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#promocoes" class="nav-link">Promoções</a></li>
+                    <li><a href="#lancamentos" class="nav-link">Lançamentos</a></li>
+                    <li><a href="#mais-vendidos" class="nav-link">Mais Vendidos</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="main-banner">
+            <div class="banner-content">
+                <h1>As Melhores Ofertas Você Encontra Aqui!</h1>
+                <p>Produtos de qualidade com os melhores preços e condições de pagamento.</p>
+                <a href="#ofertas" class="cta-btn">Ver Ofertas</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Ofertas do Dia</h2>
+                <a href="/ofertas" class="view-all">Ver todas</a>
+            </div>
+            <div class="products-grid" id="ofertasGrid">
+                <!-- Produtos serão inseridos aqui -->
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Mais Vendidos</h2>
+                <a href="/mais-vendidos" class="view-all">Ver todos</a>
+            </div>
+            <div class="products-grid" id="maisVendidosGrid">
+                <!-- Produtos serão inseridos aqui -->
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Lançamentos</h2>
+                <a href="/lancamentos" class="view-all">Ver todos</a>
+            </div>
+            <div class="products-grid" id="lancamentosGrid">
+                <!-- Produtos serão inseridos aqui -->
+            </div>
+        </section>
+
+        <!-- Promoções em Destaque -->
+        <section class="section promotions">
+            <div class="section-header">
+                <h2 class="section-title">Promoções Imperdíveis</h2>
+                <a href="#todas-promocoes" class="view-all">Ver todas</a>
+            </div>
+            <div class="promotions-grid">
+                <div class="promotion-card">
+                    <span class="discount-badge">-30%</span>
+                    <div class="promotion-image">
+                        <img src="https://via.placeholder.com/300" alt="Produto em Promoção">
+                    </div>
+                    <div class="promotion-content">
+                        <h3 class="promotion-title">Nome do Produto</h3>
+                        <div class="price-container">
+                            <span class="old-price">R$ 199,90</span>
+                            <span class="current-price">R$ 139,90</span>
+                        </div>
+                        <button class="add-to-cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+                <!-- Adicionar mais cards de promoção aqui -->
+            </div>
+        </section>
+
+        <!-- Produtos em Destaque -->
+        <section class="section featured-products">
+            <div class="section-header">
+                <h2 class="section-title">Produtos em Destaque</h2>
+                <div class="category-filters">
+                    <button class="filter-btn active" data-category="todos">Todos</button>
+                    <button class="filter-btn" data-category="informatica">Informática</button>
+                    <button class="filter-btn" data-category="acessorios">Acessórios</button>
+                    <button class="filter-btn" data-category="sexshop">Sex Shop</button>
+                </div>
+            </div>
+            <div class="products-grid">
+                <!-- Produtos serão carregados dinamicamente aqui -->
+            </div>
+        </section>
+
+        <div class="profile-section" id="profile-management" style="display: none;">
+            <div class="profile-tabs">
+                <button class="profile-tab active" data-tab="personal-info">
+                    <i class="fas fa-user"></i> Informações Pessoais
+                </button>
+                <button class="profile-tab" data-tab="addresses">
+                    <i class="fas fa-map-marker-alt"></i> Endereços
+                </button>
+                <button class="profile-tab" data-tab="security">
+                    <i class="fas fa-lock"></i> Segurança
+                </button>
+            </div>
+
+            <!-- Informações Pessoais -->
+            <div class="profile-content active" id="personal-info">
+                <form id="personal-info-form">
+                    <div class="form-group">
+                        <label for="name">Nome Completo</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Telefone</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cpf">CPF</label>
+                        <input type="text" id="cpf" class="form-control" required>
+                    </div>
+                    <button type="submit" class="save-btn">Salvar Alterações</button>
+                </form>
+            </div>
+
+            <!-- Endereços -->
+            <div class="profile-content" id="addresses">
+                <div class="address-list">
+                    <div class="address-card default">
+                        <span class="default-badge">Principal</span>
+                        <div class="address-actions">
+                            <button class="address-btn" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="address-btn" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <h3>Casa</h3>
+                        <p>Rua Exemplo, 123</p>
+                        <p>Bairro - Cidade/UF</p>
+                        <p>CEP: 00000-000</p>
+                    </div>
+                </div>
+                <button class="save-btn" id="add-address">
+                    <i class="fas fa-plus"></i> Adicionar Novo Endereço
+                </button>
+            </div>
+
+            <!-- Segurança -->
+            <div class="profile-content" id="security">
+                <form id="security-form">
+                    <div class="form-group">
+                        <label for="current-password">Senha Atual</label>
+                        <input type="password" id="current-password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Nova Senha</label>
+                        <input type="password" id="new-password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirmar Nova Senha</label>
+                        <input type="password" id="confirm-password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="save-btn">Alterar Senha</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Institucional</h3>
+                <ul class="footer-links">
+                    <li><a href="/sobre" class="footer-link">Sobre Nós</a></li>
+                    <li><a href="/politica-privacidade" class="footer-link">Política de Privacidade</a></li>
+                    <li><a href="/termos" class="footer-link">Termos de Uso</a></li>
+                    <li><a href="/trocas" class="footer-link">Trocas e Devoluções</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Atendimento</h3>
+                <ul class="footer-links">
+                    <li><a href="/faq" class="footer-link">FAQ</a></li>
+                    <li><a href="/contato" class="footer-link">Fale Conosco</a></li>
+                    <li><a href="/rastreamento" class="footer-link">Rastrear Pedido</a></li>
+                    <li><a href="/whatsapp" class="footer-link">WhatsApp</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Formas de Pagamento</h3>
+                <p>Aceitamos todas as principais formas de pagamento:</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-pix"></i>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Redes Sociais</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Carregar produtos
+        async function loadProducts() {
+            try {
+                // Simular dados de produtos (substitua por chamada à API real)
+                const products = [
+                    {
+                        id: 1,
+                        name: "Notebook Gamer",
+                        category: "Informática",
+                        price: 4999.90,
+                        originalPrice: 5999.90,
+                        image: "https://via.placeholder.com/300",
+                        isNew: true,
+                        onSale: true,
+                        installments: 12
+                    },
+                    {
+                        id: 2,
+                        name: "Mouse Gamer RGB",
+                        category: "Acessórios",
+                        price: 199.90,
+                        originalPrice: 299.90,
+                        image: "https://via.placeholder.com/300",
+                        isNew: false,
+                        onSale: true,
+                        installments: 10
+                    },
+                    {
+                        id: 3,
+                        name: "Headset Gamer",
+                        category: "Acessórios",
+                        price: 299.90,
+                        originalPrice: 399.90,
+                        image: "https://via.placeholder.com/300",
+                        isNew: true,
+                        onSale: false,
+                        installments: 10
+                    }
+                ];
+
+                displayProducts(products);
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+            }
+        }
+
+        function displayProducts(products) {
+            const grids = ['ofertasGrid', 'maisVendidosGrid', 'lancamentosGrid'];
+            
+            grids.forEach(gridId => {
+                const grid = document.getElementById(gridId);
+                grid.innerHTML = products.map(product => `
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="${product.image}" alt="${product.name}">
+                            <div class="product-badges">
+                                ${product.isNew ? '<span class="badge badge-new">Novo</span>' : ''}
+                                ${product.onSale ? '<span class="badge badge-sale">-17%</span>' : ''}
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">${product.category}</span>
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">
+                                ${product.originalPrice ? 
+                                    `<span class="original-price">R$ ${product.originalPrice.toFixed(2)}</span>` : 
+                                    ''}
+                                <span class="current-price">R$ ${product.price.toFixed(2)}</span>
+                            </div>
+                            <p class="installments">
+                                em até ${product.installments}x de R$ ${(product.price/product.installments).toFixed(2)} sem juros
+                            </p>
+                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+                                <i class="fas fa-shopping-cart"></i>
+                                Adicionar ao Carrinho
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        // Carregar produtos quando a página carregar
+        document.addEventListener('DOMContentLoaded', loadProducts);
+
+        // Profile Management
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileTabs = document.querySelectorAll('.profile-tab');
+            const profileContents = document.querySelectorAll('.profile-content');
+
+            profileTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.dataset.tab;
+
+                    // Update active tab
+                    profileTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Update active content
+                    profileContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === target) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Toggle profile section
+            const profileBtn = document.querySelector('.profile-btn');
+            const profileSection = document.getElementById('profile-management');
+
+            if (profileBtn && profileSection) {
+                profileBtn.addEventListener('click', () => {
+                    profileSection.style.display = profileSection.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+
+            // Handle form submissions
+            const personalInfoForm = document.getElementById('personal-info-form');
+            const securityForm = document.getElementById('security-form');
+
+            if (personalInfoForm) {
+                personalInfoForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // Add API call to update personal information
+                    alert('Informações pessoais atualizadas com sucesso!');
+                });
+            }
+
+            if (securityForm) {
+                securityForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const newPassword = document.getElementById('new-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+
+                    if (newPassword !== confirmPassword) {
+                        alert('As senhas não coincidem!');
+                        return;
+                    }
+
+                    // Add API call to update password
+                    alert('Senha alterada com sucesso!');
+                });
+            }
+
+            // Handle address management
+            const addAddressBtn = document.getElementById('add-address');
+            if (addAddressBtn) {
+                addAddressBtn.addEventListener('click', () => {
+                    // Add logic to show address form
+                    alert('Funcionalidade em desenvolvimento');
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perigo Acessórios - Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --preto: #181818;
+            --vermelho: #e53935;
+            --azul: #00e0ff;
+            --roxo: #7c3aed;
+            --branco: #fff;
+            --cinza-escuro: #23272b;
+            --cinza-claro: #f5f5f5;
+            --neon: #00e0ff;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(120deg, #181c24cc 60%, #23272bcc 100%), url('https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat fixed;
+            color: var(--branco);
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: var(--cinza-escuro);
+            color: var(--neon);
+            padding: 24px 0;
+            text-align: center;
+            font-size: 2.2rem;
+            font-family: 'Orbitron', Arial, sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            box-shadow: 0 2px 8px #0006;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .logout-btn {
+            background: var(--vermelho);
+            color: var(--branco);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Orbitron', Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            margin-left: 240px; /* 220px da sidebar + 20px de espaço */
+            position: relative;
+            z-index: 1;
+        }
+
+        .produtos-lista, .clientes-lista, .vendedores-lista, .vendas-lista {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .produto-card, .cliente-card, .vendedor-card, .venda-card {
+            background: var(--cinza-escuro);
+            border-radius: 8px;
+            padding: 16px 20px;
+            min-width: 220px;
+            box-shadow: 0 2px 8px #0002;
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .produto-card button, .cliente-card button, .vendedor-card button, .venda-card button {
+            margin-right: 8px;
+            margin-bottom: 4px;
+            width: fit-content;
+        }
+
+        .vendedores-pendentes {
+            background: var(--cinza-escuro);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .vendedor-card {
+            background: var(--preto);
+            border: 1px solid var(--neon);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vendedor-info {
+            flex: 1;
+        }
+
+        .vendedor-info h3 {
+            margin: 0 0 8px 0;
+            color: var(--neon);
+        }
+
+        .vendedor-info p {
+            margin: 4px 0;
+            color: var(--branco);
+        }
+
+        .vendedor-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', Arial, sans-serif;
+        }
+
+        .btn-aprovar {
+            background: var(--neon);
+            color: var(--preto);
+        }
+
+        .btn-rejeitar {
+            background: var(--vermelho);
+            color: var(--branco);
+        }
+
+        .sem-pendentes {
+            text-align: center;
+            color: var(--neon);
+            padding: 20px;
+            font-size: 1.2rem;
+        }
+
+        .sidebar {
+            background: var(--cinza-escuro);
+            color: var(--branco);
+            width: 220px;
+            padding: 20px 0 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            box-shadow: 0 2px 8px #0006;
+            z-index: 10;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo h2 {
+            font-size: 1.8rem;
+            font-family: 'Orbitron', Arial, sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu li {
+            margin-bottom: 10px;
+        }
+
+        .menu li a {
+            color: var(--branco);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        .menu li a:hover {
+            text-decoration: underline;
+        }
+
+        .integracoes-lista {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .integracao-card {
+            background: var(--cinza-escuro);
+            border-radius: 8px;
+            padding: 18px 24px;
+            min-width: 260px;
+            box-shadow: 0 2px 8px #0002;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .integracao-card button, .integracao-card input[type=file] {
+            margin-top: 8px;
+        }
+
+        .integracao-card span {
+            color: #00e0ff;
+            font-size: 0.98em;
+            margin-bottom: 4px;
+        }
+
+        .produtos-lista {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .produto-card {
+            background: var(--cinza-escuro);
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 8px #0002;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .produto-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .produto-card h3 {
+            font-size: 1.1em;
+            margin: 0;
+        }
+
+        .produto-card p {
+            margin: 0;
+            color: #00e0ff;
+        }
+
+        .produto-card .preco {
+            font-weight: bold;
+            color: #00e0ff;
+        }
+
+        .produto-card .categoria {
+            font-size: 0.9em;
+            color: #aaa;
+        }
+
+        .produto-card .estoque {
+            font-size: 0.9em;
+            color: #aaa;
+        }
+
+        .produto-card button {
+            margin-top: 8px;
+            width: fit-content;
+        }
+
+        .filtros {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filtros .filtro-busca {
+            position: relative;
+            flex: none;
+            min-width: 120px;
+            max-width: 250px;
+            width: 100%;
+        }
+        .filtros .filtro-busca input {
+            width: 100%;
+            max-width: 250px;
+            padding-left: 32px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background: var(--cinza-escuro);
+            color: var(--branco);
+            font-size: 1em;
+            height: 38px;
+            box-sizing: border-box;
+        }
+        .filtros .filtro-busca i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            font-size: 1em;
+            pointer-events: none;
+        }
+        @media (max-width: 700px) {
+            .filtros {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .filtros .filtro-busca {
+                max-width: 100%;
+            }
+            .filtros .filtro-busca input {
+                max-width: 100%;
+            }
+        }
+
+        .filtros select {
+            min-width: 150px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+        }
+
+        .modal-content {
+            background: var(--cinza-escuro);
+            padding: 24px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px #0006;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-content input, .modal-content select {
+            padding: 10px 12px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background: var(--cinza-escuro);
+            color: var(--branco);
+            font-size: 1em;
+        }
+
+        .modal-content button {
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: var(--azul);
+            color: var(--branco);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .modal-content button:hover {
+            background: var(--azul-claro);
+        }
+
+        .modal-content .foto-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        .modal-content .foto-input {
+            margin-top: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .filtros-avancados {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 16px;
+            padding: 16px;
+            background: var(--cinza-escuro);
+            border-radius: 8px;
+        }
+        .filtro-range {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .filtro-range label {
+            color: #00e0ff;
+            font-size: 0.9em;
+        }
+        .filtro-range input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background: var(--preto);
+            color: var(--branco);
+            width: 120px;
+        }
+        .estoque-baixo {
+            color: #f44336 !important;
+            font-weight: bold;
+        }
+        .paginacao button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: var(--cinza-escuro);
+            color: var(--branco);
+            cursor: pointer;
+        }
+        .paginacao button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .paginacao span {
+            color: var(--branco);
+            padding: 8px 16px;
+        }
+
+        .produto-card {
+            position: relative;
+            background: var(--cinza-escuro);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .produto-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .produto-imagem {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        .produto-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        .produto-card:hover .produto-imagem img {
+            transform: scale(1.05);
+        }
+        .produto-status {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--branco);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .estoque-baixo {
+            background: var(--amarelo);
+        }
+        .sem-estoque {
+            background: var(--vermelho);
+        }
+        .produto-info {
+            padding: 16px;
+        }
+        .produto-info h3 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            color: var(--branco);
+            font-weight: 600;
+        }
+        .categoria {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            color: var(--cinza-claro);
+        }
+        .produto-valores {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            background: rgba(0,0,0,0.2);
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .valor-custo, .valor-venda {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .valor-custo span:first-child, .valor-venda span:first-child {
+            font-size: 12px;
+            color: var(--cinza-claro);
+        }
+        .valor-custo span:last-child, .valor-venda span:last-child {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--branco);
+        }
+        .produto-estoque {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 8px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        .produto-estoque span:first-child {
+            color: var(--cinza-claro);
+        }
+        .produto-estoque span:last-child {
+            font-weight: bold;
+            color: var(--branco);
+        }
+        .produto-acoes {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-editar, .btn-excluir, .btn-estoque {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        .btn-editar {
+            background: var(--azul);
+            color: var(--branco);
+        }
+        .btn-excluir {
+            background: var(--vermelho);
+            color: var(--branco);
+        }
+        .btn-estoque {
+            background: var(--verde);
+            color: var(--branco);
+        }
+        .btn-editar:hover, .btn-excluir:hover, .btn-estoque:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .paginacao {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            padding: 16px;
+            background: var(--cinza-escuro);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .paginacao-info {
+            color: var(--cinza-claro);
+            font-size: 14px;
+        }
+        .paginacao-controles {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .paginacao-controles button {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            background: var(--cinza-claro);
+            color: var(--branco);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .paginacao-controles button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .paginacao-controles button:not(:disabled):hover {
+            background: var(--azul);
+            transform: translateY(-2px);
+        }
+        .paginacao-controles span {
+            color: var(--cinza-claro);
+            margin: 0 16px;
+            font-size: 14px;
+        }
+        .produtos-lista {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 24px;
+        }
+        @media (max-width: 768px) {
+            .produtos-lista {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 16px;
+                padding: 16px;
+            }
+            .produto-card {
+                margin: 0;
+            }
+        }
+
+        .filtros input, .filtros select {
+            height: 38px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background: var(--cinza-escuro);
+            color: var(--branco);
+            font-size: 1em;
+            padding: 0 12px;
+            box-sizing: border-box;
+            transition: border 0.2s;
+        }
+        .filtros select:focus, .filtros input:focus {
+            outline: none;
+            border: 1.5px solid var(--azul);
+        }
+
+        .filtros-avancados input, .filtros-avancados select {
+            height: 38px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background: var(--cinza-escuro);
+            color: var(--branco);
+            font-size: 1em;
+            padding: 0 12px;
+            box-sizing: border-box;
+            transition: border 0.2s;
+        }
+        .filtros-avancados select:focus, .filtros-avancados input:focus {
+            outline: none;
+            border: 1.5px solid var(--azul);
+        }
+
+        .filtros .btn-filtros-avancados {
+            height: 38px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background: var(--cinza-escuro);
+            color: var(--branco);
+            font-size: 1em;
+            padding: 0 18px;
+            box-sizing: border-box;
+            transition: border 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .filtros .btn-filtros-avancados:focus {
+            outline: none;
+            border: 1.5px solid var(--azul);
+        }
+        .filtros .btn-filtros-avancados:hover {
+            background: var(--azul);
+            color: var(--preto);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Perigo Acessórios - Master</h1>
+        <button class="logout-btn" onclick="logout()">Sair</button>
+    </div>
+    <div class="container">
+        <div class="vendedores-pendentes">
+            <h2>Vendedores Pendentes</h2>
+            <div id="listaVendedoresPendentes"></div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Painel Master</h2>
+        </div>
+        <ul class="menu">
+            <li><a href="#" onclick="renderDashboard()">Dashboard</a></li>
+            <li><a href="#" onclick="renderProdutos()">Produtos</a></li>
+            <li><a href="#" onclick="renderVendedores()">Vendedores</a></li>
+            <li><a href="#" onclick="renderClientes()">Clientes</a></li>
+            <li><a href="#" onclick="renderVendas()">Vendas</a></li>
+            <li><a href="#" onclick="renderRelatorios()">Relatórios</a></li>
+            <li><a href="#" onclick="renderConfiguracoes()">Configurações</a></li>
+            <li><a href="#" onclick="renderIntegracoes()">Integrações</a></li>
+            <li><a href="#" onclick="renderTaxasCartao()">Taxas Cartão</a></li>
+            <li><a href="#" onclick="renderChatbot()">Chatbot</a></li>
+            <li><a href="#" onclick="logout()">Sair</a></li>
+        </ul>
+    </div>
+
+    <script>
+        // --- Funções de Utilidade ---
+        function getUsuarios() { return JSON.parse(localStorage.getItem('usuarios') || '[]'); }
+        function setUsuarios(u) { localStorage.setItem('usuarios', JSON.stringify(u)); }
+        function getVendedoresPendentes() { return JSON.parse(localStorage.getItem('vendedores_pendentes') || '[]'); }
+        function setVendedoresPendentes(v) { localStorage.setItem('vendedores_pendentes', JSON.stringify(v)); }
+
+        // --- Verificação de Login ---
+        (function(){
+            const usuarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado'));
+            if (!usuarioLogado || usuarioLogado.tipo !== 'master') {
+                window.location.href = 'index.html';
+            }
+        })();
+
+        // --- Renderização dos Vendedores Pendentes ---
+        function renderVendedoresPendentes() {
+            const vendedoresPendentes = getVendedoresPendentes();
+            const listaVendedores = document.getElementById('listaVendedoresPendentes');
+
+            if (vendedoresPendentes.length === 0) {
+                listaVendedores.innerHTML = '<div class="sem-pendentes">Nenhum vendedor pendente de aprovação</div>';
+                return;
+            }
+
+            listaVendedores.innerHTML = vendedoresPendentes.map((v, index) => `
+                <div class="vendedor-card">
+                    <div class="vendedor-info">
+                        <h3>${v.nome}</h3>
+                        <p><i class="fas fa-envelope"></i> ${v.email}</p>
+                        <p><i class="fas fa-id-card"></i> ${v.cpf}</p>
+                        <p><i class="fas fa-phone"></i> ${v.telefone}</p>
+                        <p><i class="fas fa-calendar"></i> ${new Date(v.dataCadastro).toLocaleDateString()}</p>
+                    </div>
+                    <div class="vendedor-actions">
+                        <button class="btn btn-aprovar" onclick="aprovarVendedor(${index})">Aprovar</button>
+                        <button class="btn btn-rejeitar" onclick="rejeitarVendedor(${index})">Rejeitar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Aprovar Vendedor ---
+        function aprovarVendedor(index) {
+            const vendedoresPendentes = getVendedoresPendentes();
+            const vendedor = vendedoresPendentes[index];
+            
+            // Remove da lista de pendentes
+            vendedoresPendentes.splice(index, 1);
+            setVendedoresPendentes(vendedoresPendentes);
+
+            // Adiciona à lista de usuários
+            const usuarios = getUsuarios();
+            usuarios.push({
+                id: Date.now(),
+                nome: vendedor.nome,
+                email: vendedor.email,
+                cpf: vendedor.cpf,
+                telefone: vendedor.telefone,
+                senha: vendedor.senha,
+                tipo: 'vendedor',
+                ativo: true,
+                precisaTrocarSenha: true,
+                dataCadastro: vendedor.dataCadastro,
+                vendas: [],
+                totalVendas: 0,
+                origem: 'master'
+            });
+            setUsuarios(usuarios);
+
+            // Atualiza a lista
+            renderVendedoresPendentes();
+        }
+
+        // --- Rejeitar Vendedor ---
+        function rejeitarVendedor(index) {
+            const vendedoresPendentes = getVendedoresPendentes();
+            vendedoresPendentes.splice(index, 1);
+            setVendedoresPendentes(vendedoresPendentes);
+            renderVendedoresPendentes();
+        }
+
+        // --- Funções para renderizar as páginas ---
+        function renderDashboard() {
+            // Implementar dashboard com cards e gráficos
+        }
+
+        function renderProdutos() {
+            document.querySelector('.container').innerHTML = `
+                <h2>Produtos</h2>
+                <div class="acoes" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+                    <button onclick="abrirModalCadastroProduto()" class="btn" style="background:var(--azul);">
+                        <i class="fas fa-plus"></i> Novo Produto
+                    </button>
+                    <button onclick="carregarProdutosReais()" class="btn" style="background:#009688;">
+                        <i class="fas fa-sync"></i> Carregar Reais
+                    </button>
+                    <button onclick="limparProdutos()" class="btn" style="background:var(--vermelho);">
+                        <i class="fas fa-trash"></i> Limpar Produtos
+                    </button>
+                    <button onclick="exportarProdutosCSV()" class="btn" style="background:#4CAF50;">
+                        <i class="fas fa-file-export"></i> Exportar CSV
+                    </button>
+                    <button onclick="document.getElementById('importarCSV').click()" class="btn" style="background:#FF9800;">
+                        <i class="fas fa-file-import"></i> Importar CSV
+                    </button>
+                    <input type="file" id="importarCSV" accept=".csv" style="display:none" onchange="importarProdutosCSV(event)">
+                </div>
+                <div class="filtros">
+                    <div class="filtro-busca" style="flex:1;min-width:200px;position:relative;">
+                        <i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#aaa;"></i>
+                        <input type="text" id="buscaProduto" placeholder="Buscar produto..." oninput="atualizarListaProdutos()" style="padding-left:32px;width:100%;">
+                    </div>
+                    <select id="filtroCategoria" onchange="atualizarListaProdutos()" style="min-width:150px;">
+                        <option value="">Todas as categorias</option>
+                    </select>
+                    <select id="ordenacao" onchange="atualizarListaProdutos()" style="min-width:150px;">
+                        <option value="nome">Nome (A-Z)</option>
+                        <option value="nomeDesc">Nome (Z-A)</option>
+                        <option value="valorAsc">Menor Valor</option>
+                        <option value="valorDesc">Maior Valor</option>
+                        <option value="estoqueAsc">Menor Estoque</option>
+                        <option value="estoqueDesc">Maior Estoque</option>
+                    </select>
+                    <button onclick="toggleFiltrosAvancados()" class="btn-filtros-avancados" style=""><i class="fas fa-filter"></i> Filtros Avançados</button>
+                </div>
+                <div id="filtrosAvancados" class="filtros-avancados" style="display:none;">
+                    <div class="filtro-range">
+                        <label>Preço Mínimo:</label>
+                        <div style="position:relative;">
+                            <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);color:#aaa;">R$</span>
+                            <input type="number" id="precoMin" placeholder="0,00" step="0.01" onchange="atualizarListaProdutos()" style="padding-left:24px;">
+                        </div>
+                    </div>
+                    <div class="filtro-range">
+                        <label>Preço Máximo:</label>
+                        <div style="position:relative;">
+                            <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);color:#aaa;">R$</span>
+                            <input type="number" id="precoMax" placeholder="0,00" step="0.01" onchange="atualizarListaProdutos()" style="padding-left:24px;">
+                        </div>
+                    </div>
+                    <div class="filtro-range">
+                        <label>Estoque Mínimo:</label>
+                        <input type="number" id="estoqueMin" placeholder="0" onchange="atualizarListaProdutos()">
+                    </div>
+                    <div class="filtro-range">
+                        <label>Estoque Máximo:</label>
+                        <input type="number" id="estoqueMax" placeholder="0" onchange="atualizarListaProdutos()">
+                    </div>
+                    <div class="filtro-range">
+                        <label>Status:</label>
+                        <select id="filtroStatus" onchange="atualizarListaProdutos()">
+                            <option value="">Todos</option>
+                            <option value="baixo">Estoque Baixo</option>
+                            <option value="normal">Estoque Normal</option>
+                            <option value="sem">Sem Estoque</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="listaProdutos" class="produtos-lista"></div>
+                <div id="paginacao"></div>
+            `;
+            atualizarListaProdutos();
+        }
+
+        function toggleFiltrosAvancados() {
+            const filtros = document.getElementById('filtrosAvancados');
+            filtros.style.display = filtros.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function exportarProdutosCSV() {
+            const produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+            const headers = ['ID', 'Nome', 'Categoria', 'Valor Custo', 'Markup', 'Outras Despesas', 'Valor Venda', 'Estoque', 'Estoque Mínimo', 'Estoque Máximo'];
+            const csvContent = [
+                headers.join(';'),
+                ...produtos.map(p => [
+                    p.id,
+                    p.nome,
+                    p.categoria,
+                    p.valorCusto.toFixed(2),
+                    p.markup.toFixed(2),
+                    (p.outrasDespesas || 0).toFixed(2),
+                    p.valorVenda.toFixed(2),
+                    p.estoque,
+                    p.estoqueMinimo,
+                    p.estoqueMaximo
+                ].join(';'))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `produtos_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importarProdutosCSV(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                const lines = content.split('\n');
+                const headers = lines[0].split(';');
+                
+                const novosProdutos = lines.slice(1).map(line => {
+                    const values = line.split(';');
+                    if (values.length !== headers.length) return null;
+                    
+                    return {
+                        id: values[0],
+                        nome: values[1],
+                        categoria: values[2],
+                        valorCusto: parseFloat(values[3]),
+                        markup: parseFloat(values[4]),
+                        outrasDespesas: parseFloat(values[5]),
+                        valorVenda: parseFloat(values[6]),
+                        estoque: parseInt(values[7]),
+                        estoqueMinimo: parseInt(values[8]),
+                        estoqueMaximo: parseInt(values[9])
+                    };
+                }).filter(p => p !== null);
+
+                if (novosProdutos.length === 0) {
+                    mostrarMensagem('Nenhum produto válido encontrado no arquivo', 'erro');
+                    return;
+                }
+
+                if (confirm(`Deseja importar ${novosProdutos.length} produtos?`)) {
+                    const produtosExistentes = JSON.parse(localStorage.getItem('produtos') || '[]');
+                    const produtosMap = new Map(produtosExistentes.map(p => [p.id, p]));
+                    
+                    novosProdutos.forEach(p => {
+                        produtosMap.set(p.id, p);
+                    });
+
+                    const todosProdutos = Array.from(produtosMap.values());
+                    localStorage.setItem('produtos', JSON.stringify(todosProdutos));
+                    localStorage.setItem('produtos_index', JSON.stringify(todosProdutos));
+                    
+                    mostrarMensagem(`${novosProdutos.length} produtos importados com sucesso!`, 'sucesso');
+                    atualizarListaProdutos();
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function carregarProdutosReais() {
+            let produtosExistentes = JSON.parse(localStorage.getItem('produtos') || '[]');
+            const baseId = produtosExistentes.length;
+            const nomes = [
+                'Carregador Portátil Samsung 10000mAh', 'Fone de Ouvido Bluetooth JBL Tune 510BT', 'Smartwatch Xiaomi Mi Band 8', 'Cabo USB-C 2m Baseus', 'Caixa de Som Bluetooth JBL Go 4',
+                'Notebook Lenovo IdeaPad 3i', 'Teclado Mecânico Redragon Kumara', 'Mouse Gamer Logitech G203', 'Monitor LG 24" Full HD', 'SSD Kingston 480GB',
+                'Smart TV Samsung 50" 4K', 'Fire TV Stick 4K', 'Echo Dot 5ª Geração', 'Tablet Samsung Galaxy Tab A8', 'Impressora HP Ink Tank 416',
+                'Placa de Vídeo RTX 4060', 'Memória RAM Corsair 16GB DDR4', 'Fonte Corsair 650W', 'Gabinete Gamer Bluecase', 'Headset Gamer HyperX Cloud Stinger',
+                'Câmera de Segurança Intelbras', 'Roteador TP-Link Archer AX10', 'Extensor Wi-Fi Xiaomi', 'Hub USB 3.0 4 Portas', 'Webcam Logitech C920',
+                'Relógio Smartwatch Amazfit Bip 3', 'Pulseira Mi Band 7', 'Carregador Veicular Baseus', 'Suporte Magnético para Celular', 'Película de Vidro 3D iPhone 14',
+                'Capa Antichoque Samsung S23', 'Cabo Lightning Original Apple', 'Carregador Turbo 30W', 'Caixa de Som JBL Flip 6', 'Fone de Ouvido Sony WH-CH510',
+                'Smart TV LG 43" 4K', 'Notebook Acer Aspire 5', 'Teclado Logitech K380', 'Mouse Sem Fio Microsoft', 'SSD WD Green 240GB',
+                'Monitor Samsung 27" Curvo', 'Tablet Lenovo Tab M10', 'Impressora Epson EcoTank L3250', 'Placa de Vídeo GTX 1650', 'Memória RAM Kingston 8GB',
+                'Fonte EVGA 500W', 'Gabinete Gamer Aerocool', 'Headset JBL Quantum 100', 'Câmera de Segurança Wi-Fi', 'Roteador Intelbras ACtion',
+                'Extensor Wi-Fi TP-Link', 'Hub USB-C Baseus', 'Webcam Redragon Fobos', 'Relógio Smartwatch Haylou', 'Pulseira Amazfit Band 5',
+                'Carregador Portátil Xiaomi 20000mAh', 'Suporte Veicular Universal', 'Película Nano Gel Samsung', 'Capa Antichoque iPhone 15', 'Cabo USB-C 3m Reforçado',
+                // ...repita e varie para completar 150 nomes reais...
+            ];
+            const descricoes = [
+                'Produto de alta qualidade, atualizado para 2025, ideal para uso diário e viagens.',
+                'Design moderno, compatível com os principais dispositivos do mercado.',
+                'Bateria de longa duração, resistente à água, fácil de usar.',
+                'Compatível com carregamento rápido, material reforçado, excelente custo-benefício.',
+                'Som potente, conexão Bluetooth estável, compacto e portátil.',
+                // ...varie as descrições para cada produto...
+            ];
+            const categorias = [
+                'Carregadores', 'Áudio', 'Gadgets', 'Cabos', 'Acessórios para Computador', 'Smart Home', 'Proteção', 'Suportes', 'Periféricos', 'Monitores',
+                'Impressoras', 'Componentes', 'TVs', 'Tablets', 'Relógios',
+            ];
+            const fotos = [
+                'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1512446733611-9099a758e082?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80',
+                // ...adicione mais URLs reais e variadas...
+            ];
+            const novosProdutos = [];
+            for (let i = 0; i < 150; i++) {
+                const idx = baseId + i + 1;
+                const nome = nomes[i % nomes.length] + (i >= nomes.length ? ' ' + (Math.floor(i / nomes.length) + 1) : '');
+                novosProdutos.push({
+                    id: 'p' + idx.toString().padStart(3, '0'),
+                    nome,
+                    descricao: descricoes[i % descricoes.length],
+                    categoria: categorias[i % categorias.length],
+                    valorCusto: 80 + (i % 70) * 2.5,
+                    markup: 50 + (i % 30),
+                    outrasDespesas: (i % 5),
+                    estoque: 10 + (i % 40),
+                    estoqueMinimo: 3 + (i % 10),
+                    estoqueMaximo: 20 + (i % 50),
+                    foto: fotos[i % fotos.length]
+                });
+            }
+            // Calcular valorVenda para cada produto
+            novosProdutos.forEach(p => {
+                const percentualTotal = (p.markup || 0) + (p.outrasDespesas || 0);
+                const coeficiente = 1 - (percentualTotal / 100);
+                p.valorVenda = coeficiente > 0 ? Math.ceil((p.valorCusto / coeficiente) * 100) / 100 : 0;
+            });
+            // Adicionar apenas produtos que não existem (por nome ou id)
+            const nomesExistentes = new Set(produtosExistentes.map(p => p.nome));
+            const idsExistentes = new Set(produtosExistentes.map(p => p.id));
+            const produtosFiltrados = novosProdutos.filter(p => !nomesExistentes.has(p.nome) && !idsExistentes.has(p.id));
+            const todosProdutos = produtosExistentes.concat(produtosFiltrados).slice(0, 150);
+            localStorage.setItem('produtos', JSON.stringify(todosProdutos));
+            localStorage.setItem('produtos_index', JSON.stringify(todosProdutos));
+            atualizarListaProdutos();
+        }
+
+        function abrirModalCadastroProduto(produto = null) {
+            const taxasCartao = JSON.parse(localStorage.getItem('taxasCartao') || '[]');
+            const taxaSelecionada = produto ? produto.taxaCartao : '';
+            const selectTaxa = `<select name="taxaCartao" id="taxaCartaoSelect" style="width:100%;margin-bottom:8px;">
+                <option value="">Sem taxa de cartão</option>
+                ${taxasCartao.map(t => `<option value="${t.tipo}" ${taxaSelecionada === t.tipo ? 'selected' : ''}>${t.tipo} (${t.valor}%)</option>`).join('')}
+            </select>`;
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="position:relative;">
+                    <button type="button" onclick="fecharModal()" style="position:absolute;top:12px;right:18px;font-size:1.5em;background:none;border:none;color:#fff;cursor:pointer;z-index:2;">&times;</button>
+                    <h2 style="margin-right:32px;">${produto ? 'Editar Produto' : 'Cadastrar Produto'}</h2>
+                    <form onsubmit="salvarProduto(event, ${produto ? JSON.stringify(produto).replace(/\"/g, '&quot;') : 'null'})">
+                        <input type="text" name="nome" placeholder="Nome do produto" value="${produto ? produto.nome : ''}" required>
+                        <textarea name="descricao" placeholder="Descrição do produto">${produto ? (produto.descricao || '') : ''}</textarea>
+                        <input type="text" name="categoria" placeholder="Categoria" value="${produto ? produto.categoria : ''}" required>
+                        <div style="position:relative;">
+                            <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#aaa;">R$</span>
+                            <input type="number" name="valorCusto" placeholder="Valor de custo" step="0.01" value="${produto ? produto.valorCusto : ''}" required style="padding-left:32px;width:calc(100% - 32px);">
+                        </div>
+                        <div style="display:flex;align-items:center;gap:4px;">
+                            <input type="number" name="markup" placeholder="Markup" step="0.01" value="${produto ? produto.markup : ''}" required onchange="calcularValorVenda(this)" style="flex:1;">
+                            <span style="color:#aaa;">%</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:4px;">
+                            <input type="number" name="outrasDespesas" placeholder="% Outras despesas (opcional)" step="0.01" value="${produto ? (produto.outrasDespesas || '') : ''}" style="flex:1;" oninput="calcularValorVenda(this)">
+                            <span style="color:#aaa;">%</span>
+                        </div>
+                        ${selectTaxa}
+                        <div style="position:relative;">
+                            <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#aaa;">R$</span>
+                            <input type="number" name="valorVenda" placeholder="Valor de venda" step="0.01" value="${produto ? produto.valorVenda : ''}" required readonly style="padding-left:32px;width:calc(100% - 32px);">
+                        </div>
+                        <div style="display:flex;align-items:center;gap:4px;">
+                            <input type="number" name="descontoPermitido" placeholder="Desconto permitido (%)" step="0.01" value="${produto ? (produto.descontoPermitido || '') : ''}" style="flex:1;">
+                            <span style="color:#aaa;">%</span>
+                        </div>
+                        <input type="number" name="estoque" placeholder="Estoque atual" value="${produto ? produto.estoque : ''}" required>
+                        <input type="number" name="estoqueMinimo" placeholder="Estoque mínimo" value="${produto ? produto.estoqueMinimo : ''}" required>
+                        <input type="number" name="estoqueMaximo" placeholder="Estoque máximo" value="${produto ? produto.estoqueMaximo : ''}" required>
+                        <input type="file" name="foto" class="foto-input" accept="image/*" onchange="previewFoto(this)">
+                        ${produto && produto.foto ? `<img src="${produto.foto}" class="foto-preview">` : ''}
+                        <button type="submit">${produto ? 'Salvar' : 'Cadastrar'}</button>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+            // Atualizar valor de venda ao trocar taxa
+            document.getElementById('taxaCartaoSelect').addEventListener('change', function() {
+                calcularValorVenda({form: modal.querySelector('form')});
+            });
+        }
+
+        function fecharModal() {
+            const modal = document.querySelector('.modal');
+            if (modal) modal.remove();
+        }
+
+        function calcularValorVenda(input) {
+            const form = input.form;
+            const valorCusto = parseFloat(form.valorCusto.value) || 0;
+            const markup = parseFloat(form.markup.value) || 0;
+            let outrasDespesas = 0;
+            
+            // Validação de valores negativos
+            if (valorCusto < 0 || markup < 0) {
+                alert('Valores não podem ser negativos');
+                return;
+            }
+
+            if (form.outrasDespesas && form.outrasDespesas.value !== '') {
+                outrasDespesas = parseFloat(form.outrasDespesas.value) || 0;
+                if (outrasDespesas < 0) {
+                    alert('Outras despesas não podem ser negativas');
+                    return;
+                }
+            }
+
+            // Buscar taxa de cartão selecionada
+            let taxaCartao = 0;
+            if (form.taxaCartao && form.taxaCartao.value) {
+                const taxasCartao = JSON.parse(localStorage.getItem('taxasCartao') || '[]');
+                const taxaObj = taxasCartao.find(t => t.tipo === form.taxaCartao.value);
+                if (taxaObj) taxaCartao = parseFloat(taxaObj.valor) || 0;
+            }
+
+            const percentualTotal = markup + outrasDespesas + taxaCartao;
+            
+            // Validação do percentual total
+            if (percentualTotal >= 100) {
+                alert('A soma dos percentuais não pode ser maior ou igual a 100%');
+                return;
+            }
+
+            const coeficiente = 1 - (percentualTotal / 100);
+            let valorVenda = coeficiente > 0 ? valorCusto / coeficiente : 0;
+            
+            // Arredondamento para cima para o centavo mais próximo
+            valorVenda = Math.ceil(valorVenda * 100) / 100;
+            
+            // Formatação do valor com duas casas decimais
+            form.valorVenda.value = valorVenda.toFixed(2);
+        }
+
+        function previewFoto(input) {
+            const preview = input.parentElement.querySelector('.foto-preview') || document.createElement('img');
+            preview.className = 'foto-preview';
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+                if (!input.parentElement.querySelector('.foto-preview')) {
+                    input.parentElement.appendChild(preview);
+                }
+            }
+        }
+
+        function salvarProduto(event, produto) {
+            event.preventDefault();
+            const form = event.target;
+            const novoProduto = {
+                id: produto ? produto.id : Date.now(),
+                nome: form.nome.value,
+                descricao: form.descricao ? form.descricao.value : '',
+                categoria: form.categoria.value,
+                valorCusto: parseFloat(form.valorCusto.value),
+                markup: parseFloat(form.markup.value),
+                outrasDespesas: form.outrasDespesas ? parseFloat(form.outrasDespesas.value) : 0,
+                taxaCartao: form.taxaCartao ? form.taxaCartao.value : '',
+                valorVenda: parseFloat(form.valorVenda.value),
+                descontoPermitido: form.descontoPermitido ? parseFloat(form.descontoPermitido.value) : 0,
+                estoque: parseInt(form.estoque.value),
+                estoqueMinimo: parseInt(form.estoqueMinimo.value),
+                estoqueMaximo: parseInt(form.estoqueMaximo.value),
+                foto: produto ? produto.foto : ''
+            };
+            if (form.foto.files && form.foto.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    novoProduto.foto = e.target.result;
+                    finalizarSalvamento(novoProduto, produto);
+                };
+                reader.readAsDataURL(form.foto.files[0]);
+            } else {
+                finalizarSalvamento(novoProduto, produto);
+            }
+        }
+
+        function finalizarSalvamento(novoProduto, produto) {
+            let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+            if (produto) {
+                produtos = produtos.map(p => p.id === produto.id ? novoProduto : p);
+            } else {
+                produtos.push(novoProduto);
+            }
+            localStorage.setItem('produtos', JSON.stringify(produtos));
+            localStorage.setItem('produtos_index', JSON.stringify(produtos));
+            document.querySelector('.modal').remove();
+            atualizarListaProdutos();
+        }
+
+        function atualizarListaProdutos() {
+            const produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+            const produtosPorPagina = 12;
+            const paginaAtual = parseInt(localStorage.getItem('paginaAtual') || '1');
+            const busca = document.getElementById('buscaProduto') ? document.getElementById('buscaProduto').value.toLowerCase() : '';
+            const filtroCategoria = document.getElementById('filtroCategoria') ? document.getElementById('filtroCategoria').value : '';
+            const filtroPrecoMin = parseFloat(document.getElementById('precoMin') ? document.getElementById('precoMin').value : '') || 0;
+            const filtroPrecoMax = parseFloat(document.getElementById('precoMax') ? document.getElementById('precoMax').value : '') || Infinity;
+            const filtroEstoqueMin = parseInt(document.getElementById('estoqueMin') ? document.getElementById('estoqueMin').value : '') || 0;
+            const filtroEstoqueMax = parseInt(document.getElementById('estoqueMax') ? document.getElementById('estoqueMax').value : '') || Infinity;
+            const filtroStatus = document.getElementById('filtroStatus') ? document.getElementById('filtroStatus').value : '';
+            const ordenacao = document.getElementById('ordenacao') ? document.getElementById('ordenacao').value : 'nome';
+
+            // Filtrar produtos
+            let produtosFiltrados = produtos.filter(produto => {
+                const nomeMatch = produto.nome.toLowerCase().includes(busca);
+                const categoriaMatch = !filtroCategoria || produto.categoria === filtroCategoria;
+                const precoMatch = produto.valorVenda >= filtroPrecoMin && produto.valorVenda <= filtroPrecoMax;
+                const estoqueMatch = produto.estoque >= filtroEstoqueMin && produto.estoque <= filtroEstoqueMax;
+                let statusMatch = true;
+                if (filtroStatus) {
+                    if (filtroStatus === 'baixo') statusMatch = produto.estoque <= (produto.estoqueMinimo || 5) && produto.estoque > 0;
+                    else if (filtroStatus === 'normal') statusMatch = produto.estoque > (produto.estoqueMinimo || 5);
+                    else if (filtroStatus === 'sem') statusMatch = produto.estoque === 0;
+                }
+                return nomeMatch && categoriaMatch && precoMatch && estoqueMatch && statusMatch;
+            });
+
+            // Ordenar produtos
+            if (ordenacao === 'nome') {
+                produtosFiltrados.sort((a, b) => a.nome.localeCompare(b.nome));
+            } else if (ordenacao === 'nomeDesc') {
+                produtosFiltrados.sort((a, b) => b.nome.localeCompare(a.nome));
+            } else if (ordenacao === 'valorAsc') {
+                produtosFiltrados.sort((a, b) => a.valorVenda - b.valorVenda);
+            } else if (ordenacao === 'valorDesc') {
+                produtosFiltrados.sort((a, b) => b.valorVenda - a.valorVenda);
+            } else if (ordenacao === 'estoqueAsc') {
+                produtosFiltrados.sort((a, b) => a.estoque - b.estoque);
+            } else if (ordenacao === 'estoqueDesc') {
+                produtosFiltrados.sort((a, b) => b.estoque - a.estoque);
+            }
+
+            // Atualizar categorias no filtro
+            const categorias = [...new Set(produtos.map(p => p.categoria))];
+            const selectCategoria = document.getElementById('filtroCategoria');
+            if (selectCategoria) {
+                selectCategoria.innerHTML = '<option value="">Todas as categorias</option>';
+                categorias.forEach(categoria => {
+                    const option = document.createElement('option');
+                    option.value = categoria;
+                    option.textContent = categoria;
+                    selectCategoria.appendChild(option);
+                });
+            }
+
+            // Paginação
+            const totalPaginas = Math.ceil(produtosFiltrados.length / produtosPorPagina) || 1;
+            const pagina = Math.max(1, Math.min(paginaAtual, totalPaginas));
+            localStorage.setItem('paginaAtual', pagina);
+            const inicio = (pagina - 1) * produtosPorPagina;
+            const fim = inicio + produtosPorPagina;
+            const produtosPagina = produtosFiltrados.slice(inicio, fim);
+
+            // Atualizar lista de produtos
+            const listaProdutos = document.getElementById('listaProdutos');
+            if (listaProdutos) listaProdutos.innerHTML = '';
+
+            produtosPagina.forEach(produto => {
+                const card = document.createElement('div');
+                card.className = 'produto-card';
+                let statusClass = '';
+                let statusText = '';
+                if (produto.estoque === 0) {
+                    statusClass = 'sem-estoque';
+                    statusText = 'Sem Estoque';
+                } else if (produto.estoque <= 5) {
+                    statusClass = 'estoque-baixo';
+                    statusText = 'Estoque Baixo';
+                }
+                card.innerHTML = `
+                    <div class="produto-imagem">
+                        <img src="${produto.foto || 'https://via.placeholder.com/300x200?text=Sem+Imagem'}" alt="${produto.nome}">
+                        ${statusText ? `<span class="produto-status ${statusClass}">${statusText}</span>` : ''}
+                    </div>
+                    <div class="produto-info">
+                        <h3>${produto.nome}</h3>
+                        <p class="categoria">${produto.categoria}</p>
+                        <div class="produto-valores">
+                            <div class="valor-custo">
+                                <span>Custo</span>
+                                <span>R$ ${produto.valorCusto.toFixed(2)}</span>
+                            </div>
+                            <div class="valor-venda">
+                                <span>Venda</span>
+                                <span>R$ ${produto.valorVenda.toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <div class="produto-estoque">
+                            <span>Estoque</span>
+                            <span>${produto.estoque} unidades</span>
+                        </div>
+                        <div class="produto-acoes">
+                            <button class="btn-editar" onclick="editarProduto('${produto.id}')">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="btn-excluir" onclick="excluirProduto('${produto.id}')">
+                                <i class="fas fa-trash"></i> Excluir
+                            </button>
+                            <button class="btn-estoque" onclick="ajustarEstoque('${produto.id}')">
+                                <i class="fas fa-boxes"></i> Estoque
+                            </button>
+                        </div>
+                    </div>
+                `;
+                if (listaProdutos) listaProdutos.appendChild(card);
+            });
+
+            // Atualizar controles de paginação
+            const paginacao = document.getElementById('paginacao');
+            if (paginacao) paginacao.innerHTML = `
+                <div class="paginacao-info">
+                    Mostrando ${produtosFiltrados.length === 0 ? 0 : inicio + 1} a ${Math.min(fim, produtosFiltrados.length)} de ${produtosFiltrados.length} produtos
+                </div>
+                <div class="paginacao-controles">
+                    <button onclick="mudarPagina(1)" ${pagina === 1 ? 'disabled' : ''}>
+                        <i class="fas fa-angle-double-left"></i>
+                    </button>
+                    <button onclick="mudarPagina(${pagina - 1})" ${pagina === 1 ? 'disabled' : ''}>
+                        <i class="fas fa-angle-left"></i>
+                    </button>
+                    <span>Página ${pagina} de ${totalPaginas}</span>
+                    <button onclick="mudarPagina(${pagina + 1})" ${pagina === totalPaginas ? 'disabled' : ''}>
+                        <i class="fas fa-angle-right"></i>
+                    </button>
+                    <button onclick="mudarPagina(${totalPaginas})" ${pagina === totalPaginas ? 'disabled' : ''}>
+                        <i class="fas fa-angle-double-right"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function ajustarEstoque(id) {
+            const produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+            const produto = produtos.find(p => p.id === id);
+            if (!produto) return;
+
+            const quantidade = prompt(`Ajustar estoque de ${produto.nome}\nEstoque atual: ${produto.estoque}\nDigite a nova quantidade:`, produto.estoque);
+            if (quantidade === null) return;
+
+            const novaQuantidade = parseInt(quantidade);
+            if (isNaN(novaQuantidade)) {
+                mostrarMensagem('Quantidade inválida!', 'erro');
+                return;
+            }
+
+            produto.estoque = novaQuantidade;
+            localStorage.setItem('produtos', JSON.stringify(produtos));
+            localStorage.setItem('produtos_index', JSON.stringify(produtos));
+            atualizarListaProdutos();
+            mostrarMensagem('Estoque atualizado com sucesso!', 'sucesso');
+        }
+
+        function renderVendedores() {
+            const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+            const vendedores = usuarios.filter(u => u.tipo === 'vendedor');
+            const pendentes = JSON.parse(localStorage.getItem('vendedores_pendentes') || '[]');
+            document.querySelector('.container').innerHTML = `
+                <h2>Vendedores</h2>
+                <button onclick="abrirCadastroVendedor()" class="btn">Novo Vendedor</button>
+                <h3>Pendentes de Aprovação</h3>
+                <div class="vendedores-lista">
+                    ${pendentes.length === 0 ? '<i>Nenhum vendedor pendente</i>' : pendentes.map((v, idx) => `
+                        <div class="vendedor-card">
+                            <b>${v.nome}</b> - ${v.email} - ${v.telefone || ''}
+                            <button onclick="aprovarVendedor(${idx})">Aprovar</button>
+                            <button onclick="rejeitarVendedor(${idx})">Rejeitar</button>
+                        </div>
+                    `).join('')}
+                </div>
+                <h3>Vendedores Ativos</h3>
+                <div class="vendedores-lista">
+                    ${vendedores.map(v => `
+                        <div class="vendedor-card">
+                            <b>${v.nome}</b> - ${v.email} - ${v.telefone || ''}
+                            <button onclick="editarVendedor(${v.id})">Editar</button>
+                            <button onclick="excluirVendedor(${v.id})">Excluir</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function abrirCadastroVendedor() {
+            document.querySelector('.container').innerHTML = `
+                <h2>Novo Vendedor</h2>
+                <form id="formVendedor">
+                    <input type="text" id="nomeVendedor" placeholder="Nome" required><br>
+                    <input type="email" id="emailVendedor" placeholder="Email" required><br>
+                    <input type="tel" id="telVendedor" placeholder="Telefone"><br>
+                    <input type="password" id="senhaVendedor" placeholder="Senha" required><br>
+                    <button type="submit">Salvar</button>
+                    <button type="button" onclick="renderVendedores()">Cancelar</button>
+                </form>
+            `;
+            document.getElementById('formVendedor').onsubmit = salvarVendedor;
+        }
+
+        function salvarVendedor(e) {
+            e.preventDefault();
+            const nome = document.getElementById('nomeVendedor').value;
+            const email = document.getElementById('emailVendedor').value;
+            const telefone = document.getElementById('telVendedor').value;
+            const senha = document.getElementById('senhaVendedor').value;
+            let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+            usuarios.push({ id: Date.now(), nome, email, telefone, senha, tipo: 'vendedor', ativo: true });
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            sincronizarVendedores();
+            renderVendedores();
+        }
+
+        function editarVendedor(id) {
+            let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+            const v = usuarios.find(u => u.id === id && u.tipo === 'vendedor');
+            if (!v) return;
+            document.querySelector('.container').innerHTML = `
+                <h2>Editar Vendedor</h2>
+                <form id="formVendedor">
+                    <input type="text" id="nomeVendedor" value="${v.nome}" required><br>
+                    <input type="email" id="emailVendedor" value="${v.email}" required><br>
+                    <input type="tel" id="telVendedor" value="${v.telefone || ''}"><br>
+                    <input type="password" id="senhaVendedor" value="${v.senha}" required><br>
+                    <button type="submit">Salvar</button>
+                    <button type="button" onclick="renderVendedores()">Cancelar</button>
+                </form>
+            `;
+            document.getElementById('formVendedor').onsubmit = function(e) {
+                e.preventDefault();
+                v.nome = document.getElementById('nomeVendedor').value;
+                v.email = document.getElementById('emailVendedor').value;
+                v.telefone = document.getElementById('telVendedor').value;
+                v.senha = document.getElementById('senhaVendedor').value;
+                localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                sincronizarVendedores();
+                renderVendedores();
+            };
+        }
+
+        function excluirVendedor(id) {
+            let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+            usuarios = usuarios.filter(u => u.id !== id || u.tipo !== 'vendedor');
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            sincronizarVendedores();
+            renderVendedores();
+        }
+
+        function sincronizarVendedores() {
+            // Sincroniza vendedores com PDV e Cliente
+            const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+            const vendedores = usuarios.filter(u => u.tipo === 'vendedor');
+            localStorage.setItem('vendedores_index', JSON.stringify(vendedores));
+            localStorage.setItem('vendedores_pdv', JSON.stringify(vendedores));
+            localStorage.setItem('vendedores_cliente', JSON.stringify(vendedores));
+        }
+
+        function renderClientes() {
+            const clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+            document.querySelector('.container').innerHTML = `
+                <h2>Clientes</h2>
+                <button onclick="abrirCadastroCliente()" class="btn">Novo Cliente</button>
+                <div class="clientes-lista">
+                    ${clientes.map(cli => `
+                        <div class="cliente-card">
+                            <b>${cli.nome}</b> - ${cli.email} - ${cli.telefone || ''}
+                            <button onclick="editarCliente(${cli.id})">Editar</button>
+                            <button onclick="excluirCliente(${cli.id})">Excluir</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function abrirCadastroCliente() {
+            document.querySelector('.container').innerHTML = `
+                <h2>Novo Cliente</h2>
+                <form id="formCliente">
+                    <input type="text" id="nomeCliente" placeholder="Nome" required><br>
+                    <input type="email" id="emailCliente" placeholder="Email" required><br>
+                    <input type="tel" id="telCliente" placeholder="Telefone"><br>
+                    <button type="submit">Salvar</button>
+                    <button type="button" onclick="renderClientes()">Cancelar</button>
+                </form>
+            `;
+            document.getElementById('formCliente').onsubmit = salvarCliente;
+        }
+
+        function salvarCliente(e) {
+            e.preventDefault();
+            const nome = document.getElementById('nomeCliente').value;
+            const email = document.getElementById('emailCliente').value;
+            const telefone = document.getElementById('telCliente').value;
+            let clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+            clientes.push({ id: Date.now(), nome, email, telefone });
+            localStorage.setItem('clientes', JSON.stringify(clientes));
+            sincronizarClientes();
+            renderClientes();
+        }
+
+        function editarCliente(id) {
+            let clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+            const cli = clientes.find(c => c.id === id);
+            if (!cli) return;
+            document.querySelector('.container').innerHTML = `
+                <h2>Editar Cliente</h2>
+                <form id="formCliente">
+                    <input type="text" id="nomeCliente" value="${cli.nome}" required><br>
+                    <input type="email" id="emailCliente" value="${cli.email}" required><br>
+                    <input type="tel" id="telCliente" value="${cli.telefone || ''}"><br>
+                    <button type="submit">Salvar</button>
+                    <button type="button" onclick="renderClientes()">Cancelar</button>
+                </form>
+            `;
+            document.getElementById('formCliente').onsubmit = function(e) {
+                e.preventDefault();
+                cli.nome = document.getElementById('nomeCliente').value;
+                cli.email = document.getElementById('emailCliente').value;
+                cli.telefone = document.getElementById('telCliente').value;
+                localStorage.setItem('clientes', JSON.stringify(clientes));
+                sincronizarClientes();
+                renderClientes();
+            };
+        }
+
+        function excluirCliente(id) {
+            let clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+            clientes = clientes.filter(c => c.id !== id);
+            localStorage.setItem('clientes', JSON.stringify(clientes));
+            sincronizarClientes();
+            renderClientes();
+        }
+
+        function sincronizarClientes() {
+            // Sincroniza clientes com PDV e Cliente
+            const clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+            localStorage.setItem('clientes_base', JSON.stringify(clientes));
+            localStorage.setItem('clientes_pdv', JSON.stringify(clientes));
+            localStorage.setItem('clientes_cliente', JSON.stringify(clientes));
+        }
+
+        function renderVendas() {
+            const vendas = JSON.parse(localStorage.getItem('vendas') || '[]');
+            document.querySelector('.container').innerHTML = `
+                <h2>Histórico de Vendas</h2>
+                <div class="vendas-lista">
+                    ${vendas.length === 0 ? '<i>Nenhuma venda registrada</i>' : vendas.map(v => `
+                        <div class="venda-card">
+                            <b>Venda #${v.id}</b> - ${v.data ? new Date(v.data).toLocaleString() : ''}<br>
+                            <b>Cliente:</b> ${v.cliente || ''} <b>Vendedor:</b> ${v.vendedor || ''} <b>Total:</b> R$ ${v.total ? v.total.toFixed(2) : '0,00'}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderRelatorios() {
+            const vendas = JSON.parse(localStorage.getItem('vendas') || '[]');
+            const produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+            const totalVendas = vendas.length;
+            const valorTotal = vendas.reduce((sum, v) => sum + (v.total || 0), 0);
+            const produtoMaisVendido = produtos.length ? produtos.reduce((a, b) => (a.vendidos || 0) > (b.vendidos || 0) ? a : b) : null;
+            document.querySelector('.container').innerHTML = `
+                <h2>Relatórios</h2>
+                <div class="relatorio-cards">
+                    <div class="relatorio-card">
+                        <h3>Total de Vendas</h3>
+                        <div class="total">${totalVendas}</div>
+                    </div>
+                    <div class="relatorio-card">
+                        <h3>Valor Total Vendido</h3>
+                        <div class="total">R$ ${valorTotal.toFixed(2)}</div>
+                    </div>
+                    <div class="relatorio-card">
+                        <h3>Produto Mais Vendido</h3>
+                        <div class="total">${produtoMaisVendido ? produtoMaisVendido.nome : '-'}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderConfiguracoes() {
+            const formasPagamento = JSON.parse(localStorage.getItem('formas_pagamento') || '["PIX","Cartão","Dinheiro"]');
+            document.querySelector('.container').innerHTML = `
+                <h2>Configurações Gerais</h2>
+                <h3>Formas de Pagamento</h3>
+                <form id="formPagamentos">
+                    <input type="text" id="formasPagamentoInput" value="${formasPagamento.join(', ')}" style="width:80%"> <button type="submit">Salvar</button>
+                </form>
+                <div style="margin-top:10px;color:#00e0ff;">Separe as formas de pagamento por vírgula.</div>
+            `;
+            document.getElementById('formPagamentos').onsubmit = function(e) {
+                e.preventDefault();
+                const formas = document.getElementById('formasPagamentoInput').value.split(',').map(f => f.trim()).filter(f => f);
+                localStorage.setItem('formas_pagamento', JSON.stringify(formas));
+                alert('Formas de pagamento atualizadas!');
+            };
+        }
+
+        function renderIntegracoes() {
+            document.querySelector('.container').innerHTML = `
+                <h2>Integrações</h2>
+                <div class="integracoes-lista">
+                    <div class="integracao-card">
+                        <b>Chatbot</b><br>
+                        <span>Permite integração com assistente virtual para atendimento automático. Clique para configurar as mensagens e ativação do chatbot.</span>
+                        <button onclick="renderChatbot()">Configurar Chatbot</button>
+                    </div>
+                    <div class="integracao-card">
+                        <b>Exportar Dados</b><br>
+                        <span>Exporte todos os dados do sistema em JSON para backup ou migração. Clique para baixar o arquivo.</span>
+                        <button onclick="exportarDados()">Exportar</button>
+                    </div>
+                    <div class="integracao-card">
+                        <b>Importar Dados</b><br>
+                        <span>Importe dados em JSON para restaurar ou migrar informações. Escolha o arquivo e aguarde a confirmação.</span>
+                        <input type="file" id="importarArquivo" accept="application/json" onchange="importarDados(event)">
+                    </div>
+                </div>
+            `;
+        }
+
+        function exportarDados() {
+            const dados = {
+                produtos: JSON.parse(localStorage.getItem('produtos') || '[]'),
+                clientes: JSON.parse(localStorage.getItem('clientes') || '[]'),
+                usuarios: JSON.parse(localStorage.getItem('usuarios') || '[]'),
+                vendas: JSON.parse(localStorage.getItem('vendas') || '[]'),
+                taxasCartao: JSON.parse(localStorage.getItem('taxasCartao') || '[]'),
+                formasPagamento: JSON.parse(localStorage.getItem('formas_pagamento') || '[]'),
+                metadata: {
+                    dataExportacao: new Date().toISOString(),
+                    versao: '1.0',
+                    totalProdutos: JSON.parse(localStorage.getItem('produtos') || '[]').length,
+                    totalClientes: JSON.parse(localStorage.getItem('clientes') || '[]').length,
+                    totalVendas: JSON.parse(localStorage.getItem('vendas') || '[]').length
+                }
+            };
+
+            const blob = new Blob([JSON.stringify(dados, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup_perigo_acessorios_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            mostrarMensagem('Backup exportado com sucesso!', 'sucesso');
+        }
+
+        function importarDados(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const dados = JSON.parse(e.target.result);
+                    
+                    // Validação básica do arquivo
+                    if (!dados.metadata || !dados.metadata.versao) {
+                        throw new Error('Arquivo inválido: formato não reconhecido');
+                    }
+
+                    // Confirmação do usuário
+                    const confirmacao = `
+                        Você está prestes a importar:
+                        - ${dados.produtos?.length || 0} produtos
+                        - ${dados.clientes?.length || 0} clientes
+                        - ${dados.vendas?.length || 0} vendas
+                        - ${dados.taxasCartao?.length || 0} taxas de cartão
+                        
+                        Deseja continuar? Os dados existentes serão substituídos.
+                    `;
+
+                    if (!confirm(confirmacao)) {
+                        return;
+                    }
+
+                    // Backup dos dados atuais
+                    const backup = {
+                        produtos: JSON.parse(localStorage.getItem('produtos') || '[]'),
+                        clientes: JSON.parse(localStorage.getItem('clientes') || '[]'),
+                        usuarios: JSON.parse(localStorage.getItem('usuarios') || '[]'),
+                        vendas: JSON.parse(localStorage.getItem('vendas') || '[]'),
+                        taxasCartao: JSON.parse(localStorage.getItem('taxasCartao') || '[]'),
+                        formasPagamento: JSON.parse(localStorage.getItem('formas_pagamento') || '[]')
+                    };
+
+                    try {
+                        // Importar dados
+                        if (dados.produtos) {
+                            localStorage.setItem('produtos', JSON.stringify(dados.produtos));
+                            localStorage.setItem('produtos_index', JSON.stringify(dados.produtos));
+                        }
+                        if (dados.clientes) {
+                            localStorage.setItem('clientes', JSON.stringify(dados.clientes));
+                            localStorage.setItem('clientes_base', JSON.stringify(dados.clientes));
+                            localStorage.setItem('clientes_pdv', JSON.stringify(dados.clientes));
+                            localStorage.setItem('clientes_cliente', JSON.stringify(dados.clientes));
+                        }
+                        if (dados.usuarios) {
+                            localStorage.setItem('usuarios', JSON.stringify(dados.usuarios));
+                        }
+                        if (dados.vendas) {
+                            localStorage.setItem('vendas', JSON.stringify(dados.vendas));
+                        }
+                        if (dados.taxasCartao) {
+                            localStorage.setItem('taxasCartao', JSON.stringify(dados.taxasCartao));
+                        }
+                        if (dados.formasPagamento) {
+                            localStorage.setItem('formas_pagamento', JSON.stringify(dados.formasPagamento));
+                        }
+
+                        mostrarMensagem('Dados importados com sucesso!', 'sucesso');
+                        atualizarListaProdutos();
+                    } catch (err) {
+                        // Restaurar backup em caso de erro
+                        localStorage.setItem('produtos', JSON.stringify(backup.produtos));
+                        localStorage.setItem('produtos_index', JSON.stringify(backup.produtos));
+                        localStorage.setItem('clientes', JSON.stringify(backup.clientes));
+                        localStorage.setItem('clientes_base', JSON.stringify(backup.clientes));
+                        localStorage.setItem('clientes_pdv', JSON.stringify(backup.clientes));
+                        localStorage.setItem('clientes_cliente', JSON.stringify(backup.clientes));
+                        localStorage.setItem('usuarios', JSON.stringify(backup.usuarios));
+                        localStorage.setItem('vendas', JSON.stringify(backup.vendas));
+                        localStorage.setItem('taxasCartao', JSON.stringify(backup.taxasCartao));
+                        localStorage.setItem('formas_pagamento', JSON.stringify(backup.formasPagamento));
+                        
+                        throw new Error('Erro ao importar dados. Backup restaurado. Detalhes: ' + err.message);
+                    }
+                } catch (err) {
+                    mostrarMensagem('Erro ao importar dados: ' + err.message, 'erro');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function renderChatbot() {
+            const chatbotAtivo = localStorage.getItem('chatbot_ativo') === 'true';
+            const mensagem = localStorage.getItem('chatbot_msg') || 'Olá! Como posso ajudar?';
+            document.querySelector('.container').innerHTML = `
+                <h2>Configuração do Chatbot</h2>
+                <form id="formChatbot">
+                    <label><input type="checkbox" id="chatbotAtivo" ${chatbotAtivo ? 'checked' : ''}> Ativar Chatbot</label><br><br>
+                    <label>Mensagem de Boas-vindas:</label><br>
+                    <input type="text" id="chatbotMsg" value="${mensagem}" style="width:80%"><br><br>
+                    <button type="submit">Salvar</button>
+                </form>
+            `;
+            document.getElementById('formChatbot').onsubmit = function(e) {
+                e.preventDefault();
+                localStorage.setItem('chatbot_ativo', document.getElementById('chatbotAtivo').checked);
+                localStorage.setItem('chatbot_msg', document.getElementById('chatbotMsg').value);
+                alert('Configurações do chatbot salvas!');
+            };
+        }
+
+        // --- Logout ---
+        function logout() {
+            sessionStorage.removeItem('usuarioLogado');
+            window.location.href = 'index.html';
+        }
+
+        // --- Inicialização ---
+        renderVendedoresPendentes();
+        renderDashboard();
+
+        // Funções para taxa da maquininha
+        document.getElementById('taxaMaquininhaInput').value = localStorage.getItem('taxaMaquininha') || '';
+
+        function salvarTaxaMaquininha() {
+            const taxa = parseFloat(document.getElementById('taxaMaquininhaInput').value) || '';
+            if (taxa !== '' && taxa >= 0) {
+                localStorage.setItem('taxaMaquininha', taxa);
+                alert('Taxa da maquininha salva!');
+                atualizarListaProdutos && atualizarListaProdutos();
+            }
+        }
+        function removerTaxaMaquininha() {
+            localStorage.removeItem('taxaMaquininha');
+            document.getElementById('taxaMaquininhaInput').value = '';
+            alert('Taxa da maquininha removida!');
+            atualizarListaProdutos && atualizarListaProdutos();
+        }
+
+        // Função para renderizar ambiente dedicado de taxas de cartão
+        function renderTaxasCartao() {
+            const taxas = JSON.parse(localStorage.getItem('taxasCartao') || '[]');
+            document.querySelector('.container').innerHTML = `
+                <h2>Taxas Cartão</h2>
+                <form id="formTaxaCartao" style="margin-bottom:20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                    <input type="text" id="tipoTaxa" placeholder="Tipo (ex: Crédito, Débito, 2x, 3x...)" required style="min-width:120px;">
+                    <input type="number" id="valorTaxa" placeholder="%" step="0.01" min="0" max="100" required style="width:90px;">
+                    <input type="number" id="maxParcelasTaxa" placeholder="Máx. parcelas" step="1" min="1" max="24" style="width:110px;">
+                    <button type="submit">Adicionar/Atualizar</button>
+                </form>
+                <div id="listaTaxasCartao">
+                    ${taxas.length === 0 ? '<i>Nenhuma taxa cadastrada</i>' : taxas.map((t, idx) => `
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+                            <b>${t.tipo}</b>: ${t.valor}%
+                            ${t.maxParcelas ? `- até ${t.maxParcelas}x sem juros` : ''}
+                            <button onclick="editarTaxaCartao(${idx})">Editar</button>
+                            <button onclick="removerTaxaCartao(${idx})">Remover</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('formTaxaCartao').onsubmit = salvarTaxaCartao;
+        }
+
+        function salvarTaxaCartao(e) {
+            e.preventDefault();
+            const tipo = document.getElementById('tipoTaxa').value.trim();
+            const valor = parseFloat(document.getElementById('valorTaxa').value);
+            const maxParcelas = parseInt(document.getElementById('maxParcelasTaxa').value) || null;
+            if (!tipo || isNaN(valor) || valor < 0) return;
+            let taxas = JSON.parse(localStorage.getItem('taxasCartao') || '[]');
+            const idx = taxas.findIndex(t => t.tipo.toLowerCase() === tipo.toLowerCase());
+            if (idx >= 0) {
+                taxas[idx].valor = valor;
+                taxas[idx].maxParcelas = maxParcelas;
+            } else {
+                taxas.push({ tipo, valor, maxParcelas });
+            }
+            localStorage.setItem('taxasCartao', JSON.stringify(taxas));
+            renderTaxasCartao();
+        }
+
+        function editarTaxaCartao(idx) {
+            const taxas = JSON.parse(localStorage.getItem('taxasCartao') || '[]');
+            if (!taxas[idx]) return;
+            document.getElementById('tipoTaxa').value = taxas[idx].tipo;
+            document.getElementById('valorTaxa').value = taxas[idx].valor;
+            document.getElementById('maxParcelasTaxa').value = taxas[idx].maxParcelas || '';
+        }
+
+        function removerTaxaCartao(idx) {
+            let taxas = JSON.parse(localStorage.getItem('taxasCartao') || '[]');
+            taxas.splice(idx, 1);
+            localStorage.setItem('taxasCartao', JSON.stringify(taxas));
+            renderTaxasCartao();
+        }
+
+        function adicionarProdutosDemonstracao() {
+            let produtosExistentes = JSON.parse(localStorage.getItem('produtos') || '[]');
+            const baseId = produtosExistentes.length;
+            const novosProdutos = [];
+            
+            // Verificar se já existem produtos demo
+            const produtosDemoExistentes = produtosExistentes.filter(p => p.nome.startsWith('Produto Demo'));
+            if (produtosDemoExistentes.length > 0) {
+                if (!confirm('Já existem produtos de demonstração. Deseja adicionar mais?')) {
+                    return;
+                }
+            }
+
+            // Limitar o número total de produtos
+            const limiteProdutos = 300;
+            if (produtosExistentes.length >= limiteProdutos) {
+                mostrarMensagem('Limite máximo de produtos atingido!', 'erro');
+                return;
+            }
+
+            const quantidadeNovos = Math.min(30, limiteProdutos - produtosExistentes.length);
+            
+            for (let i = 1; i <= quantidadeNovos; i++) {
+                const idx = baseId + i;
+                const nome = `Produto Demo ${idx}`;
+                
+                // Verificar se o produto já existe
+                if (produtosExistentes.some(p => p.nome === nome)) {
+                    continue;
+                }
+
+                novosProdutos.push({
+                    id: 'p' + idx.toString().padStart(3, '0'),
+                    nome,
+                    descricao: `Descrição detalhada do produto demo ${idx}, atualizado para 2025. Produto de alta qualidade, ideal para demonstração e testes.`,
+                    categoria: ['Carregadores','Áudio','Cabos','Suportes','Proteção','Gadgets','Acessórios para Computador','Smart Home','Acessórios para Carro'][idx % 9],
+                    valorCusto: 20 + (idx % 100) * 2.5,
+                    markup: 40 + (idx % 30),
+                    outrasDespesas: (idx % 5),
+                    estoque: 10 + (idx % 40),
+                    estoqueMinimo: 3 + (idx % 10),
+                    estoqueMaximo: 20 + (idx % 50),
+                    foto: [
+                        'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5',
+                        'https://images.unsplash.com/photo-1608156639585-b3a032ef9689',
+                        'https://images.unsplash.com/photo-1612996575756-d04f7017f65f',
+                        'https://images.unsplash.com/photo-1615526675159-e248c3021d3f',
+                        'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb',
+                        'https://images.unsplash.com/photo-1519125323398-675f0ddb6308',
+                        'https://images.unsplash.com/photo-1517336714731-489689fd1ca8',
+                        'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+                        'https://images.unsplash.com/photo-1512499617640-c2f999098c01'
+                    ][idx % 9]
+                });
+            }
+
+            if (novosProdutos.length === 0) {
+                mostrarMensagem('Não foi possível adicionar novos produtos demo', 'erro');
+                return;
+            }
+
+            // Calcular valorVenda para cada produto
+            novosProdutos.forEach(p => {
+                const percentualTotal = (p.markup || 0) + (p.outrasDespesas || 0);
+                const coeficiente = 1 - (percentualTotal / 100);
+                p.valorVenda = coeficiente > 0 ? Math.ceil((p.valorCusto / coeficiente) * 100) / 100 : 0;
+            });
+
+            // Adicionar novos produtos
+            const todosProdutos = produtosExistentes.concat(novosProdutos);
+            localStorage.setItem('produtos', JSON.stringify(todosProdutos));
+            localStorage.setItem('produtos_index', JSON.stringify(todosProdutos));
+            
+            mostrarMensagem(`${novosProdutos.length} produtos demo adicionados com sucesso!`, 'sucesso');
+            atualizarListaProdutos();
+        }
+
+        function excluirProduto(id) {
+            let produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+            produtos = produtos.filter(p => p.id !== id);
+            localStorage.setItem('produtos', JSON.stringify(produtos));
+            localStorage.setItem('produtos_index', JSON.stringify(produtos));
+            atualizarListaProdutos();
+        }
+
+        function limparProdutos() {
+            if (confirm('Tem certeza que deseja remover TODOS os produtos?')) {
+                localStorage.removeItem('produtos');
+                localStorage.removeItem('produtos_index');
+                atualizarListaProdutos();
+            }
+        }
+
+        function validarImagem(url) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+            });
+        }
+
+        function mostrarMensagem(mensagem, tipo = 'info') {
+            const div = document.createElement('div');
+            div.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 4px;
+                color: white;
+                font-weight: bold;
+                z-index: 1000;
+                animation: fadeIn 0.3s ease-in-out;
+            `;
+            
+            if (tipo === 'sucesso') {
+                div.style.backgroundColor = '#4CAF50';
+            } else if (tipo === 'erro') {
+                div.style.backgroundColor = '#f44336';
+            } else {
+                div.style.backgroundColor = '#2196F3';
+            }
+            
+            div.textContent = mensagem;
+            document.body.appendChild(div);
+            
+            setTimeout(() => {
+                div.style.animation = 'fadeOut 0.3s ease-in-out';
+                setTimeout(() => div.remove(), 300);
+            }, 3000);
+        }
+
+        function editarProduto(id) {
+            const produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+            const produto = produtos.find(p => p.id === id);
+            if (!produto) return;
+
+            abrirModalCadastroProduto(produto);
+        }
+
+        function mudarPagina(novaPagina) {
+            localStorage.setItem('paginaAtual', novaPagina);
+            atualizarListaProdutos();
+        }
+    </script>
+</body>
+</html> 
